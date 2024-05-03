@@ -1,11 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, FlatList, Image, TextInput, Button, handleSearch} from 'react-native';
+import { StyleSheet, Text, View, FlatList, Image, TextInput, Button, TouchableOpacity} from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 import React, { useState, useEffect} from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
+import { Alert } from 'react-native';
 
 const Tab = createBottomTabNavigator();
+
+
 
 function MyTabs() {
   return (
@@ -73,32 +76,52 @@ const events = [
 
 
 function EventosScreen() {
+  const selecao = 0;
+  const handleSearch = () => {
+    // Adicione a lógica de pesquisa aqui
+    console.log('Pesquisa realizada!');
+  };
+
+  const handleButtonPress = () => {
+    
+  };
+  if (selecao == 1) {
+    return(
+    Alert.alert('teste')
+    );
+  }
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'lightgray' }}>
       <View style={{ flexDirection: 'row', margin: 10 }}>
         <TextInput
           style={{ flex: 1, height: 40, borderColor: 'gray', borderWidth: 1, marginRight: 10, paddingLeft: 10 }}
-          placeholder="Search"
+          placeholder="Pesquisar"
         />
-        <Button title="Search" onPress={() => handleSearch()} />
+        <Button title="Pesquisar" onPress={handleSearch} />
       </View>
       <FlatList
-        data={events}
+        data={events} // Certifique-se de que 'events' esteja definido
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
-          <View style={{ flexDirection: 'row', margin: 20, alignItems: 'center', justifyContent: 'space-between', width: '90%', borderWidth: 1, height: 102 }}>
+          <View >
+            <TouchableOpacity onPress={handleButtonPress}>
+              <View style={{ flexDirection: 'row', margin: 20, alignItems: 'center', justifyContent: 'space-between', width: '90%', borderWidth: 1, height: 102 }}>
             <Image source={{ uri: item.url }} style={{ width: 100, height: 100 }} />
             <View style={{ flex: 1 }}>
-              <Text style={{ fontWeight: 'bold', textAlign: 'left', paddingLeft: 10, borderWidth: 1, fontSize: 10, height: 20 }}>{item.name}</Text>
-              <Text style={{ textAlign: 'left', fontSize: 10, height: 80, borderWidth: 1, paddingLeft: 10 }}>{item.description}</Text>
+              <Text style={{ fontWeight: 'bold', textAlign: 'left', paddingLeft: 10, fontSize: 10, height: 20 }}>{item.name}</Text>
+              <Text style={{ textAlign: 'left', fontSize: 10, height: 80, paddingLeft: 10 }}>{item.description}</Text>
             </View>
+          
+              </View>
+            </TouchableOpacity>
           </View>
         )}
       />
     </View>
   );
 }
+
 
 function CameraScreen() {
   
